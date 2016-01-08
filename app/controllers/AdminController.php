@@ -19,16 +19,6 @@ public function publicidad()
 	}
 
 	
-	public function usuarios()
-	{
-		$usuarios = Usuarios::where('id_nivel', '!=', 1)->get();
-		$numero = Usuarios::where('id_nivel', '!=', 1)->count();
-		$pedidos = Pedidos::UserMas()->get();
-		return View::make('Admin.usuarios',compact('usuarios','numero','pedidos'));
-	}
-
-
-	
 	public function publicar()
 	{
 		$publicidad = new Publicidad;
@@ -84,6 +74,81 @@ public function publicidad()
 		return Redirect::to('admin/publicidad')->with('message','Cambios con éxito');
 			
 	}
+
+	public function reportes()
+	{
+		$envios=Envios::reportes()->get();
+
+
+		return json_encode($envios);	
+	}
+
+	public function usershd()
+	{
+
+		$users=UsuariosHD::usuarioshd()->get();
+
+		return json_encode($users);
+	}
+
+	public function envios()
+	{
+		$envios=Envios::enviados()->get();
+		return json_encode($envios);
+	}
+
+	public function enviosC()
+	{
+		$envios=Envios::envioscubiertos()->get();
+		return json_encode($envios);
+	}
+
+	public function Etarjeta()
+	{
+		$envios=Envios::tarjeta()->get();
+		return json_encode($envios);
+	}
+
+
+	public function usuarios()
+	{
+		$usuarios=Usuarios::usuarios()->get();
+		return json_encode($usuarios);
+	
+
+	}
+
+
+	  public function confirmar()
+    {
+        $envios = Envios::find(Input::get('id'));
+        $envios->estatus = 'confirmado';
+        $envios->coordenadas_actuales = Input::get('coordenadas_actuales');
+        $envios->id_usuarioHD = Input::get('id_usuarioHD');
+        $envios->save();
+        return Response::json('success');
+    }
+
+
+
+      public function reparar()
+    {
+        $envios = Envios::find(Input::get('id'));
+        $envios->estatus = 'accidente';
+        $envios->coordenadas_accidente = Input::get('coordenadas_accidente');
+        $envios->save();
+        return Response::json('success');
+    }
+
+
+      public function actual()
+    {
+        $envios = Envios::find(Input::get('id'));
+        $envios->coordenadas_actuales = Input::get('coordenadas_actuales');
+        $envios->save();
+        return Response::json('success');
+    }
+
 
 
 

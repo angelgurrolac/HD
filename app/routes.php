@@ -59,5 +59,13 @@ Route::post('/admin/validar','AdminController@validar');
 Route::post('/admin/publicidad','AdminController@publicar');
 Route::post('/admin/editar','AdminController@editar');
 Route::post('/admin/saveChanges','AdminController@saveChanges');
+Route::get('/admin/reportes','AdminController@reportes');
+Route::get('/admin/usershd','AdminController@usershd');
+Route::get('/admin/envios','AdminController@envios');
+Route::get('/admin/enviosC','AdminController@enviosC');
+Route::get('/admin/Etarjeta','AdminController@Etarjeta');
+Route::get('/admin/confirmar','AdminController@confirmar');
+Route::get('/admin/reparar','AdminController@reparar');
+Route::get('/admin/actual','AdminController@actual');
 
 });
