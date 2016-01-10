@@ -17,7 +17,7 @@ class SessionController extends \BaseController {
 			$nivel=Auth::user()->id_nivel;
 			
 			if ($nivel=='1') {
-				return Redirect::action('AdminController@publicidad');
+				return Redirect::action('AdminController@reportes');
 			}else{
 				if ($nivel=='2') {
 					Session::put('nombre',Restaurantes::find(Auth::user()->id_restaurante)->nombre);
