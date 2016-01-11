@@ -20,7 +20,9 @@ class UsuariosHD extends Eloquent
 
 
 
-		->select('e.id','h.username','h.nombre','h.apellidos','h.estatus_u','h.celular','h.edad',
+		->select('e.id as numero','h.username as nombre','h.nombre as nombre2','h.apellidos as apellidos',
+			'h.estatus_u as estatus','h.celular as celular','h.edad as edad',
+			'h.motocicleta as moto','h.anio_moto as año',
 			DB::raw('SUM(e.id_usuarioHD = h.id) as enviados'));
 		
 		 

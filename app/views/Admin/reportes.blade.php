@@ -25,30 +25,33 @@
 
 							<thead>
 								<th>No. de envío</th>
-								<th>Cantidad</th>
-								<th>Platillos</th>
+								<th>Cantidad de platillos</th>
+								<th>Total</th>
 								<th>Costo por transporte</th>               
 								<th>IVA</th>
 								<th>Costo total</th>          
-								<th>Razón social</th> 
 								<th>RFC</th>
-								<th></th>
+								
 							</thead>
 							<tbody>
+								 @if(count($envios)>0)
+
+               				     @foreach($envios as $key => $value2)
 
 								<tr>
 
-									<td>$val->platillos_vendidos</td>
-									<td>$val->costo_promedio</td>
-									<td>$val->no_ordenes</td>
-
-									<td>$val->consultas</td>
-									<td>$val->comision</td>
-									<td>$val->total</td>
-
-									<td>$val->fecha</td>
-									<td>$val->fecha</td>
+									<td>{{$value2->creado}}-{{$value2->numero}}</td>
+									<td>{{$value2->cantidad}}</td>
+									<td>${{$value2->total}}</td>
+									<td>$15</td>
+									<td>$2.4</td>
+									<td>${{$value2->final}}</td>
+									<!-- <td>{{$value2->nombreR}}</td> -->
+									<td>{{$value2->RFC}}</td>
 								</tr>
+
+								   @endforeach
+           							 @endif
 
 							</tbody>
 
@@ -70,30 +73,36 @@
 						<table class="table table-bordered table-hover table-striped users">
 							<thead>
 								<th>No. de envío</th>
-								<th>Cantidad</th>
-								<th>Paquete</th>
+								<th>Cantidad de platillos</th>
+								<th>Total</th>
 								<th>Costo por transporte</th>               
 								<th>IVA</th>
 								<th>Costo total</th>          
-								<th>Razón social</th> 
 								<th>RFC</th>
-								<th></th>
 							</thead>
 							<tbody>
 
 								<tr>
 
 
-									<td></td>
+									 @if(count($envios2)>0)
 
-									<td></td>
-									<td></td>
+               				     @foreach($envios2 as $key2 => $value2)
 
-									<td>$value->consultas</td>
-									<td>$value->comision</td>
-									<td>$value->total</td>
-									<td>4242424242424242</td>
-									<td>$value->fecha</td>
+								<tr>
+
+									<td>{{$value2->creado}}-{{$value2->numero}}</td>
+									<td>{{$value2->cantidad}}</td>
+									<td>${{$value2->total}}</td>
+									<td>$15</td>
+									<td>$2.4</td>
+									<td>${{$value2->final}}</td>
+									<!-- <td>{{$value2->nombreR}}</td> -->
+									<td>{{$value2->RFC}}</td>
+								</tr>
+
+								   @endforeach
+           							 @endif
 								</tr>
 
 							</tbody>

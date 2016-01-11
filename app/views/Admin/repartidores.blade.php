@@ -14,10 +14,13 @@
 					<div class="col-lg-12">
 						<div class="panel-body">
 							<div class="row">
+								@if(count($users)>0)
+
+              					 @foreach($users as $key => $value)
 								<div class="col-sm-12">
 									<div class="panel panel-green">
 										<div class="panel-heading">
-											<h3 class="panel-title"><i class="fa fa-fw fa-motorcycle"></i> Repartidor: Juan Perez</h3>
+											<h3 class="panel-title"><i class="fa fa-fw fa-motorcycle"></i> Repartidor: {{$value->nombre2}} {{$value->apellidos}}</h3>
 										</div>
 										<div class="panel-body">
 											<div class="row" >
@@ -27,8 +30,8 @@
 												</div>
 												<div class="col-md-9" >
 													<br>
-													<p style="display: inline; padding:0.5em;" class="titulos" >Motocicleta:</p> <p style="display: inline; padding:0.5em;" class="resultados">FX2 YAMAHA 207 </p> 
-													<p style="display: inline;" class="titulos">    Año:</p> <p style="display: inline;" class="resultados">2016</p>
+													<p style="display: inline; padding:0.5em;" class="titulos" >Motocicleta:</p> <p style="display: inline; padding:0.5em;" class="resultados">{{$value->moto}}</p> 
+													<p style="display: inline;" class="titulos">    Año:</p> <p style="display: inline;" class="resultados">{{$value->año}}</p>
 
 
 													<div class="table-responsive" style="padding-top:1em;">
@@ -45,11 +48,11 @@
 															</thead>
 															<tbody>
 																<tr>
-																	<td>/index.html</td>
-																	<td>1265</td>
+																	<td>{{$value->estatus}}</td>
+																	<td>{{$value->celular}}</td>
 																	<td>32.3%</td>
-																	<td>$321.33</td>
-																	<td>1265</td>
+																	<td>{{$value->enviados}}</td>
+																	<td>{{$value->edad}}</td>
 																	<td>32.3%</td>
 
 																</tr>
@@ -64,6 +67,8 @@
 										</div>
 									</div>
 								</div>
+								 @endforeach
+                         @endif
 							</div>
 						</div>
 					</div>

@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Usuarios</title>
+	  
 </head>
 <body>
 	<div class="row" style="background-color:white;">
@@ -23,11 +24,11 @@
 							<div class="panel-body">
 								<ul class="nav nav-tabs">
 
-									<li ><a class="diseno-tabs" href="{{URL::to('/admin/vistos2') }}">Más vistos</a></li>
-									<li><a class="diseno-tabs" href="{{URL::to('/admin/maspedidos2') }}">Más ordenes</a></li>
-									<li><a class="diseno-tabs" href="{{URL::to('/admin/porcategoria2') }}">Más ventas</a></li>
-									<li><a class="diseno-tabs" href="{{URL::to('/admin/porcategoria2') }}">Más productos</a></li>
-									<li><a class="diseno-tabs" href="{{URL::to('/admin/porcategoria2') }}">Orden promedio</a></li>
+									<li ><a class="diseno-tabs" href="#">Más vistos</a></li>
+									<li><a class="diseno-tabs" href="#">Más ordenes</a></li>
+									<li><a class="diseno-tabs" href="#">Más ventas</a></li>
+									<li><a class="diseno-tabs" href="#">Más productos</a></li>
+									<li><a class="diseno-tabs" href="#">Orden promedio</a></li>
 
 
 
@@ -44,27 +45,36 @@
 													<div class="panel-body"  >
 														<div class="table-responsive">
 															<table class="table table-bordered table-hover table-striped" >
-																<thead class="at">
+																<thead >
 																	<tr>
+																		<th width="100" heigth="100">Empleado HD </th>
 																		<th width="100" heigth="100">Envíos cubiertos </th>
 																		<th width="100" heigth="100">Costo promedio</th>
 																		<th width="100" heigth="100">No. de transacciones</th>
 																		<th width="100" heigth="100">Comisión</th>
 																		<th width="100" heigth="100">Total a depositar</th>
+																		<th width="100" heigth="100">Acciones</th>
 																	</tr>
 																</thead>
-																<tbody class="at acomodo-tabla" >
+																<tbody >
+																	 @if(count($envios)>0)
+
+               															@foreach($envios as $key => $value)
 																	<tr>
-																		<td width="100" heigth="100">21 </td>
-																		<td width="100" heigth="100">100</td>
-																		<td width="100" heigth="100">6</td>
-																		<td width="100" heigth="100">342</td>
-																		<td width="100" heigth="100">300</td>
-																	
-																		<!-- <td width="50" heigth="50">3</td>
-																		<td width="50" heigth="50">1</td> -->
-																	
+
+																		<td width="100" heigth="100">{{$value->nombre}}</td>
+																		<td width="100" heigth="100">{{$value->envios_totales}}</td>
+																		<td width="100" heigth="100">$15</td>
+																		<td width="100" heigth="100">{{$value->enviosTarjeta}}</td>
+																		<td width="100" heigth="100">$9</td>
+																		<td width="100" heigth="100">${{$value->pago}}</td>
+																		<td width="100" heigth="100">{{ Form::submit('Pagar', array('name'=> 'Confirmar','class' => 'btn btn-primary')) }}</td>
+
 																	</tr>
+
+																	 @endforeach
+                  												       @endif
+
 																</tbody>
 															</table>
 

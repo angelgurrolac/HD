@@ -77,12 +77,17 @@ public function publicidad()
 
 	public function reportes()
 	{
+		
 		$envios=Envios::reportes()->get();
-
-
-		//return json_encode($envios);	
-		return View::make('Admin.reportes',compact('envios'));
+		$envios2=Envios::reportes2()->get();
+		return View::make('Admin.reportes',compact('envios','envios2'));
 	}
+	// public function reportes2()
+	// {
+		
+	// 	$envios2=Envios::reportes2()->get();
+	// 	return View::make('Admin.reportes',compact('envios2'));
+	// }
 
 	public function usershd()
 	{
@@ -100,12 +105,18 @@ public function publicidad()
 		return View::make('Admin.envios',compact('envios'));
 	}
 
+
+
 	public function enviosC()
 	{
 		$envios=Envios::envioscubiertos()->get();
+		// $envios1=Envios::envioscubiertosT()->union($envios)->get();
 		//return json_encode($envios);
 		return View::make('Admin.resultados',compact('envios'));
 	}
+
+
+
 
 	public function Etarjeta()
 	{
@@ -117,11 +128,13 @@ public function publicidad()
 	public function usuarios()
 	{
 		$usuarios=Usuarios::usuarios()->get();
+		$usuarios2=Usuarios::usuarios2()->get();
+		$usuarios3=Usuarios::usuarios3()->get();
+		$usertotal=UsuariosHD::All()->count();
 		// return json_encode($usuarios);
-		return View::make('Admin.usuarios',compact('usuarios'));
-	
-
+		return View::make('Admin.usuarios',compact('usuarios','usuarios2','usuarios3','usertotal'));
 	}
+
 
 
 	  public function confirmar()
