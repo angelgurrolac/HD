@@ -44,11 +44,14 @@
 
        <div class="table-responsive">
          <table class="table table-bordered table-hover table-striped users">
+          @foreach($enviosHD as $key => $value)
+          <tr><td>Envíos HD</td><td>{{$value->HD}}</td></tr>
+          @endforeach
+          @foreach($enviosT as $key2 => $value2)
+          <tr><td>Envíos Tasty</td><td>{{$value2->tasty}}</td></tr>
+          @endforeach
 
-          <tr><td>Envíos Tasty</td><td>--</td></tr>
-          <tr><td>Envíos HD</td><td>--</td></tr>
-
-          <tr><td>Envíos totales</td><td>--</td>	</tr>
+          <tr><td>Envíos totales</td><td>{{$enviosAll}}</td>	</tr>
           <tr><td>Porcentaje de cumplimiento</td><td>--</td>	</tr>
           <tr><td>Precio promedio del pedido</td><td>--</td>	</tr>
           <tr><td>IVA</td><td>--</td>	</tr>

@@ -110,9 +110,11 @@ public function publicidad()
 	public function enviosC()
 	{
 		$envios=Envios::envioscubiertos()->get();
+		$envios2=Envios::envioscubiertosT()->get();
+		$envios3=Envios::envioscubiertosHD()->get();
 		// $envios1=Envios::envioscubiertosT()->union($envios)->get();
 		//return json_encode($envios);
-		return View::make('Admin.resultados',compact('envios'));
+		return View::make('Admin.resultados',compact('envios','envios2','envios3'));
 	}
 
 
@@ -133,6 +135,16 @@ public function publicidad()
 		$usertotal=UsuariosHD::All()->count();
 		// return json_encode($usuarios);
 		return View::make('Admin.usuarios',compact('usuarios','usuarios2','usuarios3','usertotal'));
+	}
+
+
+	public function informes()
+	{
+		$enviosHD=Envios::informes()->get();
+		$enviosT=Envios::informes2()->get();
+		$enviosAll=Envios::where('estatus','=','recibido')->count();
+
+		return View::make('Admin.informe',compact('enviosHD','enviosT','enviosAll'));
 	}
 
 

@@ -67,5 +67,6 @@ Route::get('/admin/Etarjeta','AdminController@Etarjeta');
 Route::get('/admin/confirmar','AdminController@confirmar');
 Route::get('/admin/reparar','AdminController@reparar');
 Route::get('/admin/actual','AdminController@actual');
+Route::get('/admin/informes','AdminController@informes');
 
 });

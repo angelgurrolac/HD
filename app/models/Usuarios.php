@@ -20,6 +20,7 @@ class Usuarios extends Eloquent
 		->leftjoin('restaurantes as r',function($join){
 							$join->on('r.id','=', 'e.id_restaurante');
 					}) 
+		->where('e.estatus','=','recibido')
 
 		
 
@@ -52,6 +53,7 @@ class Usuarios extends Eloquent
 							$join->on('r.id','=', 'e.id_restaurante');
 					}) 
 		->where('e.id_restaurante','=','0')
+		->where('e.estatus','=','recibido')
 
 		
 
@@ -82,6 +84,7 @@ class Usuarios extends Eloquent
 							$join->on('r.id','=', 'e.id_restaurante');
 					}) 
 		->where('e.id_restaurante','!=','0')
+		->where('e.estatus','=','recibido')
 
 		
 

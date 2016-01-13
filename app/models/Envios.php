@@ -24,6 +24,7 @@ class Envios extends Eloquent
 		 ->leftjoin('restaurantes as r',function($join){
 							$join->on('e.id_restaurante','=', 'r.id');
 					})
+		 ->where('e.estatus','=','recibido')
 
 		 ->groupBy('e.id')
 		 ->where('r.nombre','=','HD')
@@ -59,6 +60,7 @@ class Envios extends Eloquent
 		 ->leftjoin('restaurantes as r',function($join){
 							$join->on('e.id_restaurante','=', 'r.id');
 					})
+		 ->where('e.estatus','=','recibido')
 
 		 ->groupBy('e.id')
 		 ->where('r.nombre','!=','HD')
@@ -99,6 +101,69 @@ class Envios extends Eloquent
 
 
 
+	public function scopeenvioscubiertosT($enviadas)
+	{
+		$enviadas=DB::table('envios as e')
+
+		->leftjoin('usershd as h',function($join){
+							$join->on('e.id_usuariohd','=', 'h.id');
+					}) 
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					}) 
+	
+	    ->where('e.id_restaurante','=', 0)
+	    ->where('e.estatus','=','recibido')
+
+		->groupBy('h.id')
+		->orderBy('total','desc')
+
+		->select('h.username as nombre','h.correo as correo' ,
+			DB::raw('AVG(p.total) as total'), 
+			DB::raw('count(p.tipo="tarjeta") -1 as enviosTarjeta'), 
+			DB::raw('SUM(p.total) as cantidad_ventas'), 
+			DB::raw('( (sum( e.id_usuariohd = h.id) * 15) - ( (count(p.tipo="tarjeta") -1) * 9) ) as pago'), 
+			DB::raw('SUM(e.id_usuariohd = h.id) as envios_totales'));
+
+
+
+		return $enviadas;
+
+	}
+	public function scopeenvioscubiertosHD($enviadas)
+	{
+		$enviadas=DB::table('envios as e')
+
+		->leftjoin('usershd as h',function($join){
+							$join->on('e.id_usuariohd','=', 'h.id');
+					}) 
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					}) 
+		->where('e.id_restaurante','=', 0)
+		->where('e.estatus','=','recibido')
+
+		->groupBy('h.id')
+		// ->orderBy('total','desc')
+
+		->select('h.username as nombre','h.correo as correo' ,
+			// DB::raw('AVG(p.total) as total'), 
+			DB::raw('count(p.tipo="tarjeta") -1 as enviosTarjeta'), 
+			DB::raw('SUM(p.total) as cantidad_ventas'), 
+			DB::raw('( (sum( e.id_usuariohd = h.id) * 15) - ( (count(p.tipo="tarjeta") -1) * 9) ) as pago'), 
+			DB::raw('SUM(e.id_usuariohd = h.id) as envios_totales'))
+
+		->orderBy('envios_totales','desc');
+
+
+
+		return $enviadas;
+
+	}
+
+
+
+
 	public function scopeenvioscubiertos($enviadas)
 	{
 		$enviadas=DB::table('envios as e')
@@ -110,12 +175,13 @@ class Envios extends Eloquent
 							$join->on('e.id_pedido','=', 'p.id');
 					}) 
 		// ->where('p.tipo','=','tarjeta')
+		->where('e.estatus','=','recibido')
 
 		->groupBy('h.id')
-		->orderBy('total','desc')
+		// ->orderBy('total','desc')
 
-		->select('h.username as nombre', 
-			DB::raw('AVG(p.total) as total'), 
+		->select('h.username as nombre', 'h.correo as correo' ,
+			DB::raw('ROUND(AVG(p.total),2) as total'), 
 			DB::raw('count(p.tipo="tarjeta") -1 as enviosTarjeta'), 
 			DB::raw('SUM(p.total) as cantidad_ventas'), 
 			DB::raw('( (sum( e.id_usuariohd = h.id) * 15) - ( (count(p.tipo="tarjeta") -1) * 9) ) as pago'), 
@@ -144,6 +210,7 @@ class Envios extends Eloquent
 					}) 
 
 		->where('p.tipo','=','tarjeta')
+		->where('e.estatus','=','recibido')
 
 		->groupBy('h.id')
 
@@ -156,6 +223,31 @@ class Envios extends Eloquent
 
 
 
+	}
+
+
+	public function scopeinformes($informes)
+	{
+		$informes=DB::table('envios as e')
+
+		->where('e.id_restaurante','=', 0)
+		->where('e.estatus','=','recibido')
+
+		->select(DB::raw('count(e.id_restaurante=0) as HD'));
+
+		return $informes;
+	}
+
+	public function scopeinformes2($informes)
+	{
+		$informes=DB::table('envios as e')
+
+		->where('e.id_restaurante','!=', 0)
+		->where('e.estatus','=','recibido')
+
+		->select(DB::raw('count(e.id_restaurante != 0) as tasty'));
+
+		return $informes;
 	}
 
 }

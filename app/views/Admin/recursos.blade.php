@@ -97,7 +97,7 @@
           </li>
 
           <li>
-            <a href="{{URL::to('/admin/reportes') }}"><i class="fa fa-fw fa-file-o"></i> Informes</a>
+            <a href="{{URL::to('/admin/informes') }}"><i class="fa fa-fw fa-file-o"></i> Informes</a>
           </li>
 
           <li>
