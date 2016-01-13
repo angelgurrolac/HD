@@ -26,14 +26,20 @@
             <div class="panel-body"  >
 
              <div class="table-responsive">
-              <table class="table table-bordered table-hover table-striped" >
-               <thead class="at">
+              <table class="  table-hover table-striped" style=" border-spacing: 0; max-height: 40vh; overflow-y: auto; overflow-x: hidden; table-layout: fixed; width: 80vw; 
+    border:1px solid gray;" >
+               <thead class="at" style="border:1px solid gray;">
                 <tr>
-                 <th width="130" heigth="130">Orden</th>
-                 <th width="100" heigth="100">Importe</th>
-                 <th width="200" heigth="200">Confirmación</th>
-                 <th width="100" heigth="100">Enviar a</th>
-                 <th width="600" heigth="600">Dirección</th>
+                 <th style="max-width: 10vw; min-width: 10vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">Orden</th>
+                 <th style="max-width: 10vw; min-width: 10vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">Importe</th>
+                 <th style="max-width: 10vw; min-width: 10vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">Confirmación</th>
+                 <th style="max-width: 18.5vw; min-width: 18.5vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">Enviar a</th>
+                 <th style="max-width: 33vw; min-width: 33vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">Dirección</th>
                </tr>
              </thead>
              <tbody class="at acomodo-tabla" >
@@ -42,11 +48,16 @@
                @foreach($envios as $key => $value)
 
                <tr>
-                <td width="130" heigth="130">{{$value->creado}}-{{$value->numero}}</td>
-                <td width="100" heigth="100">${{$value->total}}</td>
-                <td width="200" heigth="200">{{$value->estado}}</td>
-                <td width="100" heigth="100">{{$value->nombre}}</td>
-                <td width="600" heigth="600">{{$value->direccion}}</td>
+                <td style="max-width: 10vw; min-width: 10vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">{{$value->creado}}-{{$value->numero}}</td>
+                <td style="max-width: 10vw; min-width: 10vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">${{$value->total}}</td>
+                <td style="max-width: 10vw; min-width: 10vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">{{$value->estado}}</td>
+                <td style="max-width: 18.5vw; min-width: 18.5vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">{{$value->nombre}}</td>
+                <td style="max-width: 33vw; min-width: 33vw; word-wrap: break-word; height: 3.5vh !important; padding: 4px; font-weight: normal;
+     font-size: 14px;">{{$value->direccion}}</td>
               </tr>
                  @endforeach
                          @endif
