@@ -8808,3 +8808,9 @@ display:none
 {
 	display: block; 
 }
+.acomodo-doc
+{
+	display: inline;
+	line-height: 1em;
+	margin-right: 1em;
+}
