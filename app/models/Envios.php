@@ -232,8 +232,51 @@ class Envios extends Eloquent
 
 		->where('e.id_restaurante','=', 0)
 		->where('e.estatus','=','recibido')
+		
 
-		->select(DB::raw('count(e.id_restaurante=0) as HD'));
+		->select(DB::raw('count(e.id_restaurante=0) as HD'))
+
+		->where(DB::raw('LEFT(created_at,10)'), '=', DB::raw('CURDATE()'));
+
+
+		return $informes;
+	}
+
+
+		public function scopeinformesSemana($informes)
+	{
+		$informes=DB::table('envios as e')
+
+		->where('e.id_restaurante','=', 0)
+		->where('e.estatus','=','recibido')
+		
+
+		->select(DB::raw('count(e.id_restaurante=0) as HD'))
+
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND 
+			CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY ')
+			);
+
+
+		return $informes;
+	}
+
+		public function scopeinformesMes($informes)
+	{
+		$informes=DB::table('envios as e')
+
+		->where('e.id_restaurante','=', 0)
+		->where('e.estatus','=','recibido')
+		
+
+		->select(DB::raw('count(e.id_restaurante=0) as HD'))
+
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, "%Y-%m-01") AND 
+			LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH) ')
+			);
+
 
 		return $informes;
 	}
@@ -245,9 +288,188 @@ class Envios extends Eloquent
 		->where('e.id_restaurante','!=', 0)
 		->where('e.estatus','=','recibido')
 
-		->select(DB::raw('count(e.id_restaurante != 0) as tasty'));
+		->select(DB::raw('count(e.id_restaurante != 0) as tasty'))
+
+		->where(DB::raw('LEFT(created_at,10)'), '=', DB::raw('CURDATE()'));
 
 		return $informes;
+	}
+
+		public function scopeinformes2Semana($informes)
+	{
+		$informes=DB::table('envios as e')
+
+		->where('e.id_restaurante','!=', 0)
+		->where('e.estatus','=','recibido')
+
+		->select(DB::raw('count(e.id_restaurante != 0) as tasty'))
+
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND 
+			CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY ')
+			);
+
+		return $informes;
+	}
+
+		public function scopeinformes2Mes($informes)
+	{
+		$informes=DB::table('envios as e')
+
+		->where('e.id_restaurante','!=', 0)
+		->where('e.estatus','=','recibido')
+
+		->select(DB::raw('count(e.id_restaurante != 0) as tasty'))
+
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, "%Y-%m-01") AND 
+			LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH) ')
+			);
+
+		return $informes;
+	}
+
+	public function scopeinformes3($totales)
+	{
+		$totales=DB::table('envios as e')
+
+		// ->leftjoin('pedidos as p',function($join){
+		// 					$join->on('e.id_pedido','=', 'p.id');
+		// 			}) 
+		// ->where('p.estatus','=','entregado')
+
+		->where('e.estatus','=','recibido')
+
+
+		->select(DB::raw('COUNT(e.estatus="recibido") as total'))
+		->where(DB::raw('LEFT(e.created_at,10)'), '=', DB::raw('CURDATE()'));
+
+		return $totales;
+
+
+	}
+
+	public function scopeinformes3Semana($totales)
+	{
+		$totales=DB::table('envios as e')
+
+		// ->leftjoin('pedidos as p',function($join){
+		// 					$join->on('e.id_pedido','=', 'p.id');
+		// 			}) 
+		// ->where('p.estatus','=','entregado')
+
+		->where('e.estatus','=','recibido')
+
+
+		->select(DB::raw('COUNT(e.estatus="recibido") as total'))
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND 
+			CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY ')
+			);
+
+		return $totales;
+
+
+	}
+
+	public function scopeinformes3Mes($totales)
+	{
+		$totales=DB::table('envios as e')
+
+		// ->leftjoin('pedidos as p',function($join){
+		// 					$join->on('e.id_pedido','=', 'p.id');
+		// 			}) 
+		// ->where('p.estatus','=','entregado')
+
+		->where('e.estatus','=','recibido')
+
+
+		->select(DB::raw('COUNT(e.estatus="recibido") as total'))
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, "%Y-%m-01") AND 
+			LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH) ')
+			);
+
+		return $totales;
+
+
+	}
+
+
+
+	public function scopetotales($totales)
+	{
+		$totales=DB::table('envios as e')
+
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					}) 
+		->where('p.estatus','=','pagada')
+		->where('e.estatus','=','entregado')
+
+		->select(DB::raw('ROUND(AVG(p.total),2) as promedio'),
+			DB::raw('(SUM(p.total)  * .16) +  SUM(p.total) as totales'),
+			DB::raw('SUM(p.total)  * .16 as IVA'))
+
+		->where(DB::raw('LEFT(e.created_at,10)'), '=', DB::raw('CURDATE()'));
+
+
+
+
+		return $totales;
+
+	}
+
+		public function scopetotalesSemana($totales)
+	{
+		$totales=DB::table('envios as e')
+
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					}) 
+		->where('p.estatus','=','pagada')
+		->where('e.estatus','=','entregado')
+
+		->select(DB::raw('ROUND(AVG(p.total),2) as promedio'),
+			DB::raw('(SUM(p.total)  * .16) +  SUM(p.total) as totales'),
+			DB::raw('SUM(p.total)  * .16 as IVA'))
+
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND 
+			CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY ')
+			);
+
+
+
+
+		return $totales;
+
+	}
+
+		public function scopetotalesMes($totales)
+	{
+		$totales=DB::table('envios as e')
+
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					}) 
+		->where('p.estatus','=','pagada')
+		->where('e.estatus','=','entregado')
+
+		->select(DB::raw('ROUND(AVG(p.total),2) as promedio'),
+			DB::raw('(SUM(p.total)  * .16) +  SUM(p.total) as totales'),
+			DB::raw('SUM(p.total)  * .16 as IVA'))
+
+		->where('e.created_at' , 'BETWEEN' ,  
+			DB::raw('DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, "%Y-%m-01") AND 
+			LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH) ')
+			);
+
+
+
+
+		return $totales;
+
 	}
 
 }

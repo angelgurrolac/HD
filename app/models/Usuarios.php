@@ -54,6 +54,7 @@ class Usuarios extends Eloquent
 					}) 
 		->where('e.id_restaurante','=','0')
 		->where('e.estatus','=','recibido')
+		->where('p.estatus','=','pagada')
 
 		
 
@@ -85,6 +86,7 @@ class Usuarios extends Eloquent
 					}) 
 		->where('e.id_restaurante','!=','0')
 		->where('e.estatus','=','recibido')
+		->where('p.estatus','=','pagada')
 
 		
 

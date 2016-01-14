@@ -68,5 +68,7 @@ Route::get('/admin/confirmar','AdminController@confirmar');
 Route::get('/admin/reparar','AdminController@reparar');
 Route::get('/admin/actual','AdminController@actual');
 Route::get('/admin/informes','AdminController@informes');
+Route::post('/admin/savehd','AdminController@savehd');
+Route::post('/admin/editarHD','AdminController@editarHD');
 
 });

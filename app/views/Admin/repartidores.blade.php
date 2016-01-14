@@ -14,9 +14,11 @@
 					<div class="col-lg-12">
 						<div class="panel-body">
 							<div class="row">
+
 								@if(count($users)>0)
 
               					 @foreach($users as $key => $value)
+              					 {{ Form::open(array('url' => '/admin/editarHD'))}}
 								<div class="col-sm-12">
 									<div class="panel panel-green">
 										<div class="panel-heading">
@@ -59,6 +61,12 @@
 
 															</tbody>
 														</table>
+														    
+														    {{ Form::hidden('userhd_id',$value->id)}}
+															{{ Form::submit('Editar', array('name'=> 'Editar','class' => 'btn btn-success')) }}</td>
+															{{ Form::submit('Eliminar', array('name'=> 'Eliminar','class' => 'btn btn-danger')) }}</td>													
+
+															{{Form::close()}}
 													</div>
 												</div>
 

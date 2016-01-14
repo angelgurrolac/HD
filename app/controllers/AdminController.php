@@ -60,6 +60,25 @@ public function publicidad()
 	
 	}
 
+
+	public function editarHD(){
+
+		if(Input::has('Editar'))
+		{	
+			$usershd = UsuariosHD::find(Input::get('userhd_id'));
+		    return View::make('Admin.EditarUHD',compact('usershd'));
+
+		}
+		if(Input::has('Eliminar'))
+		{	
+		    $usershd = UsuariosHD::where('id','=',Input::get('userhd_id'))->get();
+			$usershd[0]->delete();
+			return Redirect::to('admin/repartidores')->with('message','Empleado eliminado con éxito');
+        }
+
+	
+	}
+
 	public function savechanges(){
 		$publicidadhd = Publicidadhd::find(Input::get('id'));
 		// $date1 = DateTime::createFromFormat('d/m/Y', Input::get('date'));
@@ -72,6 +91,22 @@ public function publicidad()
 		$publicidadhd->save();
 
 		return Redirect::to('admin/publicidad')->with('message','Cambios con éxito');
+			
+	}
+
+
+	public function savehd(){
+		$usershd = UsuariosHD::find(Input::get('id'));
+		// $date1 = DateTime::createFromFormat('d/m/Y', Input::get('date'));
+		// $date1=$date1->format('Y-m-d');
+		
+		$usershd->nombre = Input::get('nombre');
+		// $publicidad->dia = $date1;
+		// $usershd->hora_inicio = Input::get('hora_inicio');
+		// $usershd->hora_fin = Input::get('hora_fin');
+		$usershd->save();
+
+		return Redirect::to('admin/usershd')->with('message','Cambios con éxito');
 			
 	}
 
@@ -91,8 +126,8 @@ public function publicidad()
 
 	public function usershd()
 	{
-
 		$users=UsuariosHD::usuarioshd()->get();
+		
 
 		//return json_encode($users);
 		return View::make('Admin.repartidores',compact('users'));
@@ -142,9 +177,23 @@ public function publicidad()
 	{
 		$enviosHD=Envios::informes()->get();
 		$enviosT=Envios::informes2()->get();
-		$enviosAll=Envios::where('estatus','=','recibido')->count();
+		$enviosAll=Envios::informes3()->get();
+		$total=Envios::totales()->get();
 
-		return View::make('Admin.informe',compact('enviosHD','enviosT','enviosAll'));
+		$enviosHD2=Envios::informesSemana()->get();
+		$enviosT2=Envios::informes2Semana()->get();
+		$enviosAll2=Envios::informes3Semana()->get();
+		$total2=Envios::totalesSemana()->get();
+
+		$enviosHD3=Envios::informesMes()->get();
+		$enviosT3=Envios::informes2Mes()->get();
+		$enviosAll3=Envios::informes3Mes()->get();
+		$total3=Envios::totalesMes()->get();
+
+
+		return View::make('Admin.informe',compact('enviosHD','enviosT','enviosAll','total',
+			'enviosHD2','enviosT2','enviosAll2','total2',
+			'enviosHD3','enviosT3','enviosAll3','total3'));
 	}
 
 
