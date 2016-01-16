@@ -37,16 +37,30 @@ Route::post('users/login', function()
 
 
 		$usuario = User::where('username','=',Input::get('username'))->first();
+		// $data = UsuariosHD::data($usuario->username)->get();
 		$usuario->estatus = 1;
 		$usuario->reg_id = $reg_id;
 		$usuario->save();
-		return Response::json('Logged in');
+		return Response::json($usuario);
 	 	
 	}else{
 		return Response::json('Error logging in');
 		
     }
 });
+
+
+
+
+
+Route::post('/users/chaPass','UserController@chaPass');
+Route::post('/users/confirmar','UserController@confirmar');
+Route::post('/users/reparar','UserController@reparar');
+Route::post('/users/actual','UserController@actual');
+Route::post('/users/entregado','UserController@entregado');
+Route::post('/users/registro','UserController@registrar');
+Route::post('/users/con_publicidad','UserController@aumentarP');
+Route::resource('/users/publicidad', 'UserController@getPubli');
 
 
 
@@ -64,9 +78,6 @@ Route::get('/admin/usershd','AdminController@usershd');
 Route::get('/admin/envios','AdminController@envios');
 Route::get('/admin/enviosC','AdminController@enviosC');
 Route::get('/admin/Etarjeta','AdminController@Etarjeta');
-Route::get('/admin/confirmar','AdminController@confirmar');
-Route::get('/admin/reparar','AdminController@reparar');
-Route::get('/admin/actual','AdminController@actual');
 Route::get('/admin/informes','AdminController@informes');
 Route::post('/admin/savehd','AdminController@savehd');
 Route::post('/admin/editarHD','AdminController@editarHD');

@@ -68,15 +68,15 @@
                 <legend align= "center">Documentación entregada</legend>
                 <div class="acomodo-doc">
                   <label> IFE</label>
-                  <input type="checkbox">
+                  {{ Form::checkbox('ife', false, ['class' => 'field']) }}
                 </div>
                 <div class="acomodo-doc">
                   <label> Licencia de conducir</label>
-                  <input type="checkbox">
+                  {{ Form::checkbox('licencia', false, ['class' => 'field']) }}
                 </div>
                 <div class="acomodo-doc">
                   <label> Examen médico</label>
-                  <input type="checkbox"></div>
+                  {{ Form::checkbox('medico', false, ['class' => 'field']) }}
 
                 </fieldset>
               </div>

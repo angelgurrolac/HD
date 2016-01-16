@@ -5,23 +5,22 @@ class RegistroController extends BaseController {
 	public function registrar()
 	{
 		$username = Input::get('correo');
-		$usuarios = User::where('username','=',$username)->get();
+		$usuarios = User::where('username','=',$username)->count();
 		$codigo = Input::get('codigo_postal');
 		if ($codigo > 34398 || $codigo < 34000)
 		{
 			return Response::json('0');		
 		}
-		if ($usuarios != null) {
-			return Response::json('2');
+		elseif ($usuarios > 0) {
+			return Response::json('usuario repetido');
 		}
 		else{
 
 
 		$reg_id = Input::get('reg_id');
-		$user = New User();
+		$user = New UsuariosHD();
 		$user->username = $username;
 		$user->password = Hash::make(Input::get('password'));
-		$user->id_nivel = 3;
 		$user->nombre = Input::get('nombre');
 		$user->apellidos = Input::get('apellidos');		
 		$user->correo = $username;
@@ -33,6 +32,7 @@ class RegistroController extends BaseController {
 		return Response::json('1');		
 		}
 	}
+
 	public function registrarM()
 	{
 		$codigo = Input::get('codigo_postal');

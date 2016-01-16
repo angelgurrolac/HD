@@ -32,4 +32,5 @@ class UsuariosHD extends Eloquent
 
 		return $usuarios;
 	}
+
 }

@@ -57,7 +57,7 @@ public function publicidad()
 			return Redirect::to('admin/publicidad')->with('message','Publicidad eliminada con éxito');
         }
 
-	
+		
 	}
 
 
@@ -97,13 +97,37 @@ public function publicidad()
 
 	public function savehd(){
 		$usershd = UsuariosHD::find(Input::get('id'));
-		// $date1 = DateTime::createFromFormat('d/m/Y', Input::get('date'));
-		// $date1=$date1->format('Y-m-d');
 		
+		
+		$usershd->username = Input::get('username');
 		$usershd->nombre = Input::get('nombre');
-		// $publicidad->dia = $date1;
-		// $usershd->hora_inicio = Input::get('hora_inicio');
-		// $usershd->hora_fin = Input::get('hora_fin');
+		$usershd->apellidos = Input::get('apellidos');
+		$usershd->correo = Input::get('correo');
+		$usershd->direccion = Input::get('direccion');
+		$usershd->codigo_postal = Input::get('codigo_postal');
+		$usershd->motocicleta = Input::get('motocicleta');
+		$usershd->anio_moto = Input::get('anio_moto');
+		$ife = Input::get('ife');
+		if ($ife == 1) {
+			$usershd->ife = 1;
+		}
+		else{
+			$usershd->ife = 0;
+		}
+		$licencia = Input::get('licencia');
+		if ($licencia == 1) {
+			$usershd->licencia = 1;
+		}
+		else{
+			$usershd->licencia = 0;
+		}
+		$medico = Input::get('medico');
+		if ($medico == 1) {
+			$usershd->examen_medico = 1;
+		}
+		else{
+			$usershd->examen_medico = 0;
+		}
 		$usershd->save();
 
 		return Redirect::to('admin/usershd')->with('message','Cambios con éxito');
@@ -198,36 +222,7 @@ public function publicidad()
 
 
 
-	  public function confirmar()
-    {
-        $envios = Envios::find(Input::get('id'));
-        $envios->estatus = 'confirmado';
-        $envios->coordenadas_actuales = Input::get('coordenadas_actuales');
-        $envios->id_usuarioHD = Input::get('id_usuarioHD');
-        $envios->save();
-        return Response::json('success');
-    }
-
-
-
-      public function reparar()
-    {
-        $envios = Envios::find(Input::get('id'));
-        $envios->estatus = 'accidente';
-        $envios->coordenadas_accidente = Input::get('coordenadas_accidente');
-        $envios->save();
-        return Response::json('success');
-    }
-
-
-      public function actual()
-    {
-        $envios = Envios::find(Input::get('id'));
-        $envios->coordenadas_actuales = Input::get('coordenadas_actuales');
-        $envios->save();
-        return Response::json('success');
-    }
-
+	  
 
 
 

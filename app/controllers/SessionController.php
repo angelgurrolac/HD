@@ -14,7 +14,7 @@ class SessionController extends \BaseController {
  			// $user = User::find(Input::get('username'));		
  			// $user->reg_id = Input::get('reg_id');
  			// $user->save();
-			$nivel=Auth::user()->id_nivel;
+			$nivel=Auth::user()->id_nivel2;
 			
 			if ($nivel=='1') {
 				return Redirect::action('AdminController@reportes');
@@ -46,7 +46,7 @@ class SessionController extends \BaseController {
 	{
 		
 		if (Auth::check()) {
-			$nivel=Auth::user()->id_nivel;
+			$nivel=Auth::user()->id_nivel2;
 	
 			if ($nivel=='1') {
 				return Redirect::action('AdminController@pedidos');
