@@ -49,7 +49,7 @@ class SessionController extends \BaseController {
 			$nivel=Auth::user()->id_nivel2;
 	
 			if ($nivel=='1') {
-				return Redirect::action('AdminController@pedidos');
+				return Redirect::action('AdminController@reportes');
 			}else{
 				if ($nivel=='2') {
 					return Redirect::action('RestauranteController@index');

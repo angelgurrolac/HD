@@ -4,7 +4,7 @@ class Publicidad extends Eloquent
 {
 	protected $table = "publicidad";
 
-	public function scopeActual()
+	public function scopeactual()
 	{
 		date_default_timezone_set('America/Mexico_City');
 		$publicidadhd =DB::table('publicidadhd')

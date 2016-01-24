@@ -9,12 +9,12 @@
 	height: 50px;
 }
 .admin{
-	background-color: #19523F !important;
+	background-color: #101010 !important;
 	color: #999999;
 }
 .navbar-admin {
 	background-color: ;
-	border-color: #19523F;
+	border-color: #101010;
 	color: #fff;
 	z-index: 1000;
 	margin-bottom: -35px;
@@ -264,7 +264,7 @@
 	}
 }
 .login {
-	background: url(../img/Tasty.png);
+	background: url(../img/Tasty.jpg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: top left
@@ -4993,8 +4993,8 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 
 /*Aquí se le cambia el color de fondo de la barra de navegación */
 .navbar-inverse {
-	background-color: #1DA075;
-	border-color: #1DA075;
+	background-color: #222;
+	border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
 	color: #9d9d9d;
@@ -5031,7 +5031,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 	background-color: #fff;
 }
 .navbar-inverse .navbar-collapse,.navbar-inverse .navbar-form {
-	border-color: #1DA075;
+	border-color: #101010;
 	overflow: hidden;
 }
 .navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a:focus,.navbar-inverse .navbar-nav>.open>a:hover {

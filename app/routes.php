@@ -31,6 +31,7 @@ Route::post('users/login', function()
 		
 	);
 
+	
 	if (Auth::attempt( $credentials ))
 	{
 
@@ -39,9 +40,10 @@ Route::post('users/login', function()
 		$usuario = User::where('username','=',Input::get('username'))->first();
 		// $data = UsuariosHD::data($usuario->username)->get();
 		$usuario->estatus = 1;
+		$usuario->estatus_u = 'disponible';
 		$usuario->reg_id = $reg_id;
 		$usuario->save();
-		return Response::json($usuario);
+		return Response::json([$usuario->id,$usuario->id_restaurante,$usuario->estatus_u]);
 	 	
 	}else{
 		return Response::json('Error logging in');
@@ -60,7 +62,15 @@ Route::post('/users/actual','UserController@actual');
 Route::post('/users/entregado','UserController@entregado');
 Route::post('/users/registro','UserController@registrar');
 Route::post('/users/con_publicidad','UserController@aumentarP');
+Route::post('/users/EnviosDis','UserController@EnviosDis');
+Route::post('/users/EnviosDisC','UserController@EnviosDisC');
+Route::post('/users/ultEnv','UserController@ultEnv');
+Route::get('/users/infouser','UserController@infouser');
+Route::get('/users/reportes','UserController@reportes');
 Route::resource('/users/publicidad', 'UserController@getPubli');
+Route::post('/users/estado','UserController@estado');
+Route::post('/users/changestatus','UserController@changestatus');
+Route::post('/users/web','UserController@web');
 
 
 
