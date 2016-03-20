@@ -36,6 +36,16 @@ class UserController extends \BaseController {
         return Response::json('success');
     }
 
+     public function confirmar2()
+    {
+        $envios = Envios::find(Input::get('id'));
+        $envios->estatus = 'confirmado2';
+        $envios->coordenadas_actuales = Input::get('coordenadas_actuales');
+        $envios->id_usuarioHD = Input::get('id_usuarioHD');
+        $envios->save();
+        return Response::json('success');
+    }
+
 
 
       public function reparar()
@@ -50,38 +60,54 @@ class UserController extends \BaseController {
         return Response::json('success');
     }
 
+    public function reparar2()
+    {
+        $envios = Envios::find(Input::get('id_envio'));
+        $usuarios = UsuariosHD::find(Input::get('id_usuarioHD'));
+        $envios->estatus = 'reparar2';
+        $envios->coordenadas_accidente = Input::get('coordenadas_accidente');
+        $envios->save();
+        $usuarios->estatus_u = 'descompuesto';  
+        $usuarios->save();
+        return Response::json('success');
+    }
+
+
        public function entregado()
     {
         $envios = Envios::find(Input::get('id'));
         $usuario = UsuariosHD::where('username','=',Input::get('username'))->first();
         $pedido = Pedidos::where('id','=',Input::get('id_pedido'))->first();
+        $usuario->estatus_u = 'ocupado';
+        $usuario->save();
+        $reg = Input::get('reg_id');
+          if($reg != ""){
+                $valor = PushNotification::Message('¡Tu pedido ha llegado!',array(
+                    'valor' => 2,
+                    'sound' => 'example.aiff',
+                 'actionLocKey' => 'Action button title!',
+    'locKey' => 'localized key',
+    'locArgs' => array(
+        'localized args',
+        'localized args',
+    ),
+    'launchImage' => 'image.jpg',
+
+    'custom' => array('custom data' => array(
+        'we' => 'want', 'send to app'
+    ))
+));
+
+                PushNotification::app('Tasty')
+                ->to($reg)
+                ->send($valor);
+            }
+
         $user = User::where('id','=',$pedido->id_usuario)->first();
         $envios->estatus = 'entregado';
         $envios->save();
 
-        // if($user->reg_id != ""){
-        //         $valor = PushNotification::Message('¡Tu pedido ha llegado!',array(
-        //             'valor' => 2,
-        //             'sound' => 'example.aiff',
-
-        //             'actionLocKey' => 'Action button title!',
-        //             'locKey' => 'localized key',
-        //             'locArgs' => array(
-        //                 'localized args',
-        //                 'localized args',
-        //                 ),
-        //             'launchImage' => 'image.jpg',
-
-        //             'custom' => array('custom data' => array(
-        //                 'we' => 'want', 'send to app'
-        //                 ))
-        //             ));
-
-
-        //         PushNotification::app('Tasty')
-        //         ->to($user->reg_id)
-        //         ->send($valor);
-        //     }
+        
         return Response::json('success');
     }
 
@@ -141,30 +167,95 @@ class UserController extends \BaseController {
         return Response::json('success');
     }
 
-    public function EnviosDis()
+     public function EnviosDis()
     {
-        //$restaurante = Restaurantes::where('id','=',Input::get('id_restaurante'))->first();
         
         $usuarios = UsuariosHD::where('id','=',Input::get('id'))->first();
-        $envios = Envios::EnviosDis($usuarios->id)->get();
+        $usuarios1 = UsuariosHD::where('id_restaurante','=',Input::get('id_restaurante'))->first();
+        $pedido = Pedidos::All()->last();
+        $pedidos = Pedidos::Envios()->get();
 
 
+        foreach ($pedidos as $key2 => $value2) {
+        $validacion = hd::where('id_restaurante','=',$value2->id_restaurante)->get();
+        $valor = 0;
+        $envios = Envios::EnviosDis($value2->id_restaurante)->get();
 
 
-        return Response::json($envios);
+        foreach($validacion as $key2 => $info2){
+
+           if ($info2->decision == 0) {
+
+                 if ($usuarios->id_restaurante == $value2->id_restaurante or $usuarios->id_restaurante2 == $value2->id_restaurante) {
+                       return Response::json($envios);
+                  }
+                 
+           }
+
+           if ($info2->decision == 1) {
+                         if ($usuarios->id_restaurante == $value2->id_restaurante or $usuarios->id_restaurante2 == $value2->id_restaurante
+                        or $usuarios->id_restaurante == 0 or $usuarios->id_restaurante2 == 0 ) {
+                       return Response::json($envios);
+           }
+                     
+           }
+
+       } 
+
+            
+
+        }
+
+        
+    
+    return Response::json('ERROR GENERAL');
+
     }
+
+
 
      public function EnviosDisC()
     {
-        //$restaurante = Restaurantes::where('id','=',Input::get('id_restaurante'))->first();
+       $usuarios = UsuariosHD::where('id','=',Input::get('id'))->first();
+        $usuarios1 = UsuariosHD::where('id_restaurante','=',Input::get('id_restaurante'))->first();
+        $pedido = Pedidos::All()->last();
+        $pedidos = Pedidos::Envios()->get();
+
+
+        foreach ($pedidos as $key2 => $value2) {
+        $validacion = hd::where('id_restaurante','=',$value2->id_restaurante)->get();
+        $valor = 0;
+        $envios = Envios::EnviosDis2($value2->id_restaurante)->get();
+
+
+        foreach($validacion as $key2 => $info2){
+
+           if ($info2->decision == 0) {
+
+                 if ($usuarios->id_restaurante == $value2->id_restaurante or $usuarios->id_restaurante2 == $value2->id_restaurante) {
+                       return Response::json($envios);
+                  }
+                 
+           }
+
+           if ($info2->decision == 1) {
+                         if ($usuarios->id_restaurante == $value2->id_restaurante or $usuarios->id_restaurante2 == $value2->id_restaurante
+                        or $usuarios->id_restaurante == 0 or $usuarios->id_restaurante2 == 0 ) {
+                       return Response::json($envios);
+           }
+                     
+           }
+
+       } 
+
+            
+
+        }
+
         
-        $usuarios = UsuariosHD::where('id','=',Input::get('id'))->first();
-        $envios = Envios::EnviosDis2($usuarios->id)->get();
-        return Response::json($envios);
-    }
-
-
-
+    
+    return Response::json('ERROR GENERAL');
+}
 
     public function ultEnv()
     {
@@ -209,9 +300,10 @@ class UserController extends \BaseController {
 
     public function estado()
     {
-       $estado = UsuariosHD::where('id','=',Input::get('id') )->first();
+       $estado = UsuariosHD::where('id','=',Input::get('id'))->first();
+       $estadou = $estado->id_restaurante;
        $estado_u = ($estado->estatus_u);
-       return Response::json($estado_u);
+       return Response::json([$estado_u,$estadou]);
     }
 
     public function changestatus()
@@ -235,6 +327,12 @@ class UserController extends \BaseController {
         return Response::json('success');
     }
 
+    public function envioConfirmado()
+    {
+        $usuario = UsuariosHD::where('id','=',Input::get('id'))->first();
+        $envios = Envios::EnviosConfirmados($usuario->id)->take(1)->get();
+        return Response::json($envios);
+    }
 
 
 }

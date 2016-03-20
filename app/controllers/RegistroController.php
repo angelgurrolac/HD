@@ -21,6 +21,7 @@ class RegistroController extends BaseController {
 		$user = New UsuariosHD();
 		$user->username = $username;
 		$user->id_restaurante = 0;
+		$user->estatus = 0;
 		$user->estatus_u = 'disponible';
 		$user->password = Hash::make(Input::get('password'));
 		$user->nombre = Input::get('nombre');

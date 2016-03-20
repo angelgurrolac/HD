@@ -1,4 +1,4 @@
-@include('Admin.recursos')
+ @include('Admin.recursos')
 <!DOCTYPE html>
 <html lang="en">
 <head>

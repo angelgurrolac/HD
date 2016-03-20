@@ -14,7 +14,7 @@ return array(
         'service'     =>'gcm'
     ),
 
-    'Happy Delivery' => array(
+    'HappyDelivery' => array(
         'environment' =>'production',
         'apiKey'      =>'AIzaSyB_IVj-J7blsBC5cKY27Yt4c7muLvZ2N3M',
         'service'     =>'gcm'

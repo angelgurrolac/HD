@@ -52,7 +52,8 @@ public function publicidad()
 		}
 		if(Input::has('Eliminar'))
 		{	
-		$publicidad=Publicidadhd::where('id','=',Input::get('publicidad_id'))->get();
+
+		    $publicidad=Publicidadhd::where('id','=',Input::get('publicidad_id'))->get();
 			$publicidad[0]->delete();
 			return Redirect::to('admin/publicidad')->with('message','Publicidad eliminada con éxito');
         }
@@ -66,14 +67,16 @@ public function publicidad()
 		if(Input::has('Editar'))
 		{	
 			$usershd = UsuariosHD::find(Input::get('userhd_id'));
-		    return View::make('Admin.EditarUHD',compact('usershd'));
+			$restaurante = Restaurantes::All();
+			$restaurantes = Restaurantes::where('id', '>', 0)->get();
+		    return View::make('Admin.EditarUHD',compact('usershd','restaurante','restaurantes'));
 
 		}
 		if(Input::has('Eliminar'))
 		{	
 		    $usershd = UsuariosHD::where('id','=',Input::get('userhd_id'))->get();
 			$usershd[0]->delete();
-			return Redirect::to('admin/repartidores')->with('message','Empleado eliminado con éxito');
+			return Redirect::to('admin/usershd')->with('message','Empleado eliminado con éxito');
         }
 
 	
@@ -107,6 +110,8 @@ public function publicidad()
 		$usershd->codigo_postal = Input::get('codigo_postal');
 		$usershd->motocicleta = Input::get('motocicleta');
 		$usershd->anio_moto = Input::get('anio_moto');
+		$usershd->id_restaurante = Input::get('restaurante1');
+		$usershd->id_restaurante2 = Input::get('restaurante2');
 		$ife = Input::get('ife');
 		if ($ife == 1) {
 			$usershd->ife = 1;
@@ -221,11 +226,29 @@ public function publicidad()
 	}
 
 
+	public function candidatos()
+	{
+		$candidatos = UsuariosHD::where('estatus','=',0)->get();
+		return View::make('Admin.candidatos',compact('candidatos'));		
+	}
 
-	  
+	public function validar()
+	{
+		$candidato = UsuariosHD::where('id','=', Input::get('id'))->first();
+		$candidato->estatus = 1;
+		$candidato->save();
+		$candidatos = UsuariosHD::where('estatus','=',0)->get();
+		return View::make('Admin.candidatos',compact('candidatos'));
+		
+	}
 
-
-
+	public function borrar_candidato()
+	{
+		$candidato = UsuariosHD::where('id','=', Input::get('id'))->get();
+		$candidato[0]->delete();
+		$candidatos = UsuariosHD::where('estatus','=',0)->get();
+		return View::make('Admin.candidatos',compact('candidatos'));
+	}
 
 
 }

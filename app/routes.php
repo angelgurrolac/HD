@@ -39,7 +39,7 @@ Route::post('users/login', function()
 
 		$usuario = User::where('username','=',Input::get('username'))->first();
 		// $data = UsuariosHD::data($usuario->username)->get();
-		$usuario->estatus = 1;
+		// $usuario->estatus = 1;
 		$usuario->estatus_u = 'disponible';
 		$usuario->reg_id = $reg_id;
 		$usuario->save();
@@ -57,7 +57,9 @@ Route::post('users/login', function()
 
 Route::post('/users/chaPass','UserController@chaPass');
 Route::post('/users/confirmar','UserController@confirmar');
+Route::post('/users/confirmar2','UserController@confirmar2');
 Route::post('/users/reparar','UserController@reparar');
+Route::post('/users/reparar2','UserController@reparar2');
 Route::post('/users/actual','UserController@actual');
 Route::post('/users/entregado','UserController@entregado');
 Route::post('/users/registro','UserController@registrar');
@@ -71,6 +73,7 @@ Route::resource('/users/publicidad', 'UserController@getPubli');
 Route::post('/users/estado','UserController@estado');
 Route::post('/users/changestatus','UserController@changestatus');
 Route::post('/users/web','UserController@web');
+Route::post('/users/envioConfirmado','UserController@envioConfirmado');
 
 
 
@@ -91,5 +94,8 @@ Route::get('/admin/Etarjeta','AdminController@Etarjeta');
 Route::get('/admin/informes','AdminController@informes');
 Route::post('/admin/savehd','AdminController@savehd');
 Route::post('/admin/editarHD','AdminController@editarHD');
+Route::get('/admin/candidatos','AdminController@candidatos');
+Route::post('/admin/validar','AdminController@validar');
+Route::post('/admin/borrar_candidato','AdminController@borrar_candidato');
 
 });

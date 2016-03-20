@@ -107,6 +107,9 @@
           <li>
             <a href="{{URL::to('/admin/enviosC') }}"><i class="fa fa-fw fa-check-circle-o"></i> Resultados</a>
           </li>
+          <li>
+            <a href="{{URL::to('/admin/candidatos') }}"><i class="fa fa-fw fa-users"></i> Candidatos</a>
+          </li>
 
           <li>
             <a href="{{URL::to('/admin/publicidad') }}"><i class="fa fa-fw fa-bookmark"></i>Publicidad</a>

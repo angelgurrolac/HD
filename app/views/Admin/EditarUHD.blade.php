@@ -81,28 +81,67 @@
                 </fieldset>
               </div>
               <br>
-              <div class="col-md-10"></div>
+             
+                <div class="row"></div>
+                <br>
+                <div class="col-md-4"></div>
+              <div class="col-md-8">
+               <fieldset>
+                <legend align= "center">Asignar restaurantes</legend>
+
+                <div class="acomodo-doc">
+                  <div class="col-md-4">
+                  <select name="restaurante1" class="form-control">
+                    @foreach($restaurante as  $res => $value)
+                    <option value="{{$value->id}}">{{$value->nombre}}</option>
+                    @if ($usershd->id_restaurante == $value->id ) 
+                     <option selected value="{{$value->id}}">{{$value->nombre}}</option>
+                    @endif
+                    @endforeach
+
+                  </select>
+                </div>
+                  <div class="col-md-4">
+                     <select name="restaurante2" class="form-control">
+                    @foreach($restaurante as  $res => $value)
+                    <option value="{{$value->id}}">{{$value->nombre}}</option>
+                    @if ($usershd->id_restaurante2 == $value->id ) 
+                     <option selected value="{{$value->id}}">{{$value->nombre}}</option>
+                    @endif
+                    @endforeach
+
+                  </select>
+                
+
+              
+                </div>
+                </div>
+                
+              </fieldset>
+            </div>
+            <br>
+            <div class="col-md-10"></div>
 
 
-              <div class="col-md-2"> <input type="hidden" name="id" value="{{$usershd->id}}">
-               {{Form::submit('Guardar cambios',array('class'=>'btn btn-lg btn-primary'))}}</div>
+            <div class="col-md-2"> <input type="hidden" name="id" value="{{$usershd->id}}">
+             {{Form::submit('Guardar cambios',array('class'=>'btn btn-lg btn-primary'))}}</div>
 
-               {{Form::close()}}
-             </div>
+             {{Form::close()}}
            </div>
          </div>
        </div>
-       <!-- /.row -->
-
      </div>
-     <!-- /.container-fluid -->
+     <!-- /.row -->
 
    </div>
+   <!-- /.container-fluid -->
+
  </div>
+</div>
 </body>
 </html>
 <script>
-  $('#imgFile').change(function(){
-    $('#blah')[0].src = window.URL.createObjectURL(this.files[0])
-  });
+$('#imgFile').change(function(){
+  $('#blah')[0].src = window.URL.createObjectURL(this.files[0])
+});
 </script>

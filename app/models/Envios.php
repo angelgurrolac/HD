@@ -486,8 +486,45 @@ class Envios extends Eloquent
 		->leftjoin('pedidos as p',function($join){
 							$join->on('e.id_pedido','=', 'p.id');
 					})
-		->leftjoin('usershd as h',function($join) use($usuarios){
-							$join->on('h.id_restaurante','=', DB::raw('"'.$usuarios.'"'));
+		->leftjoin('restaurantes as r',function($join)  use($usuarios){
+							$join->on('r.id','=', DB::raw('"'.$usuarios.'"'));
+					})
+		->leftjoin('users as u',function($join){
+							$join->on('u.id','=', 'p.id_usuario');
+					})
+		->leftjoin('detalles_pedidos as dp',function($join){
+							$join->on('dp.id_pedido','=', 'p.id');
+					})
+		->leftjoin('productos as a',function($join){
+										$join->on('dp.id_producto','=', 'a.id');
+					})
+
+		->groupBy('e.id')
+		->orderBy('p.id','DESC')
+		
+		
+		->select(DB::raw('GROUP_CONCAT(a.nombre SEPARATOR", " ) as alimentos'),
+			'e.id','e.foto','e.estatus','e.id_pedido','e.id_restaurante',
+			'p.total','p.domicilio','p.caracteristica','p.coordenadas','r.nombre',
+			'r.direccion','r.coordenadas as coordenadas_accidente','u.nombre','u.apellidos','u.reg_id');
+
+		return $envios;
+	}
+
+	public function scopeEnviosDishd($envios,$usuarios,$valor)
+	{
+		$envios = DB::table('envios as e')
+
+		->where('e.estatus','=','pendiente')
+		->where('p.estatus','=','pagada')
+		->where('p.id_restaurante','=', DB::raw('"'.$usuarios.'"'))
+
+
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					})
+		->leftjoin('usershd as h',function($join) use($usuarios,$valor){
+							$join->on('h.id_restaurante','=', DB::raw('"'.$usuarios.'"'))->orOn('h.id_restaurante','=', DB::raw('"'.$valor.'"'));
 					})
 		->leftjoin('restaurantes as r',function($join)  use($usuarios){
 							$join->on('r.id','=', DB::raw('"'.$usuarios.'"'));
@@ -499,17 +536,17 @@ class Envios extends Eloquent
 							$join->on('dp.id_pedido','=', 'p.id');
 					})
 		->leftjoin('productos as a',function($join){
-							$join->on('dp.id_producto','=', 'a.id');
+										$join->on('dp.id_producto','=', 'a.id');
 					})
 
 		->groupBy('e.id')
 		->orderBy('p.id','DESC')
 		
 		
-		->select(DB::raw('GROUP_CONCAT(a.nombre SEPARATOR", " ) as productos'),
-			'e.id as id_envio','e.foto as foto','e.estatus as estatus_envio','e.id_pedido as id_pedido_e','e.id_restaurante as id_restaurante_e',
-			'p.total as total','p.domicilio as domicilio_u','p.caracteristica as caracteristica_u','p.coordenadas as coordenadas_u','r.nombre as nombre_r',
-			'r.direccion as direccion_r','r.coordenadas as coordenadas_r','u.nombre as nombre_u','u.apellidos as apellidos_u','u.reg_id as reg_id');
+		->select(DB::raw('GROUP_CONCAT(a.nombre SEPARATOR", " ) as alimentos'),
+			'e.id','e.foto','e.estatus','e.id_pedido','e.id_restaurante',
+			'p.total','p.domicilio','p.caracteristica','p.coordenadas','r.nombre',
+			'r.direccion','r.coordenadas as coordenadas_accidente','u.nombre','u.apellidos','u.reg_id');
 
 		return $envios;
 	}
@@ -546,15 +583,59 @@ class Envios extends Eloquent
 		->orderBy('p.id','DESC')
 		
 		
-		->select(DB::raw('GROUP_CONCAT(a.nombre SEPARATOR", " ) as productos'),
-			'e.id as id_envio','e.foto as foto','e.estatus as estatus_envio','e.id_pedido as id_pedido_e','e.id_restaurante as id_restaurante_e',
-			'e.coordenadas_accidente as coordenadas_accidente_envio',
-			'p.total as total','p.domicilio as domicilio_u','p.caracteristica as caracteristica_u','p.coordenadas as coordenadas_u',
-			'p.tipo as tipo_pedido','r.nombre as nombre_r',
-			'r.direccion as direccion_r','r.coordenadas as coordenadas_r','u.nombre as nombre_u','u.apellidos as apellidos_u','u.reg_id as reg_id');
+		->select(DB::raw('GROUP_CONCAT(a.nombre SEPARATOR", " ) as alimentos'),
+			'e.id','e.foto','e.estatus','e.id_pedido','e.id_restaurante',
+			'e.coordenadas_accidente as coordenadas_accidente',
+			'p.total','p.domicilio','p.caracteristica','p.coordenadas',
+			'p.tipo','r.nombre as nombre_restaurante','r.direccion','r.coordenadas as coordenadas_restaurante','u.nombre','u.apellidos','u.reg_id');
 
 		return $envios;
 	}
+
+
+	public function scopeEnviosDis2hd($envios,$usuarios,$usuarios2)
+	{
+		$envios = DB::table('envios as e')
+
+		->where('e.estatus','=','confirmado')
+		->where('p.estatus','=','pagada')
+		->where('e.id_restaurante','=', DB::raw('"'.$usuarios.'"'))
+		->whereIn('h.id_restaurante', array(DB::raw('"'.$usuarios2.'"'),DB::raw('"'.$usuarios.'"')),'or',
+			'h.id_restaurante2', array(DB::raw('"'.$usuarios2.'"'),DB::raw('"'.$usuarios.'"')))
+
+
+		->leftjoin('pedidos as p',function($join){
+							$join->on('e.id_pedido','=', 'p.id');
+					})
+		->leftjoin('restaurantes as r',function($join){
+							$join->on('r.id','	=', 'e.id_restaurante');
+					})
+		->leftjoin('users as u',function($join){
+							$join->on('u.id','=', 'p.id_usuario');
+					})
+		->leftjoin('detalles_pedidos as dp',function($join){
+							$join->on('dp.id_pedido','=', 'p.id');
+					})
+		->leftjoin('productos as a',function($join){
+							$join->on('dp.id_producto','=', 'a.id');
+					})
+		->leftjoin('usershd as h',function($join){
+							$join->on('h.id','=', 'e.id_usuarioHD');
+					})
+
+		->groupBy('id')
+		->orderBy('p.id','DESC')
+		
+		
+		->select(DB::raw('GROUP_CONCAT(dp.cantidad," ", a.nombre SEPARATOR  ", " ) as alimentos'),
+			'e.id','e.foto','e.estatus','e.id_pedido','e.id_restaurante','e.coordenadas_accidente','dp.id as id_detalles_pedido',
+			'p.id as id_pedido','p.total','p.domicilio','p.caracteristica','p.coordenadas','r.nombre as nombre_restaurante',
+			'r.direccion','r.coordenadas as coordenadas_restaurante','u.nombre','u.apellidos','u.reg_id',
+			'p.tipo');
+
+		return $envios;
+	}
+
 
 	public function scopeultimoenvio($envios)
 	{
@@ -593,6 +674,27 @@ class Envios extends Eloquent
 		return $envios;
 
 
+	}
+
+	public function scopeenviosConfirmados($envios,$id)
+	{
+
+		$envios = DB::table('envios as e')
+
+		->leftjoin('usershd as h',	function($join){
+							$join->on('e.id_usuarioHD','=','h.id');
+					})
+		->where('h.estatus_u','=','noatendida')
+
+		->where('e.estatus','=','confirmado')
+
+		->where('h.id','=', DB::raw('"'.$id.'"'))
+
+		->orderBy('e.id','desc')
+
+		->select('e.id as envios_id','e.id_restaurante');
+
+		return $envios;
 	}
 
 

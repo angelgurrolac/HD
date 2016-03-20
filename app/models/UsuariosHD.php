@@ -13,10 +13,12 @@ class UsuariosHD extends Eloquent
 		->leftjoin('envios as e',function($join){
 							$join->on('e.id_usuarioHD','=', 'h.id');
 					}) 
-		->where('e.estatus','=','recibido')
+		// ->where('e.estatus','=','recibido')
 
+ 		 ->where('h.estatus','=', 1)
+ 		 ->where('h.id_nivel2','=',0)
 		 ->groupBy('h.id')
-		 ->orderBy('enviados', 'desc')
+		 ->orderBy('id', 'desc')
 
 
 
